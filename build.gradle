@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'checkstyle'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs 'mancala', 'ui'
+        }
+    }
+}
+
+checkstyle {
+    ignoreFailures = true
+    checkstyleTest.enabled = false
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'ui.TextUI' // Update the package and class name
+    }
+    archiveBaseName = 'mancala' // Update the base name of the JAR file
+}
+
+task echo {
+    doFirst {
+        println "To run the program from JAR:\njava -jar build/libs/mancala.jar"
+        println "To run the program from class files:\njava -cp build/classes/java/main ui.TextUI" // Update the package and class name
+    }
+}
+
+test {
+    useJUnitPlatform()
+    ignoreFailures = true
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
